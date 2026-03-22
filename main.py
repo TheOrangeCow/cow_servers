@@ -5,7 +5,7 @@ from server_types.chat_server import ChatServer
 from server_types.terminal_server import TerminalServer
 
 HOST = "0.0.0.0"
-PORT = 55555
+PORT = 6000
 PASSWORD = "1234"
 
 SERVER_TYPES = {
