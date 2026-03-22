@@ -8,7 +8,6 @@ class ChatServer:
         self.banned = set()
 
     def join(self, client, nickname):
-        # Check bans
         if nickname in self.banned:
             self.send(client, "You are banned.")
             return False
