@@ -4,7 +4,7 @@ import threading
 from server_types.chat_server import ChatServer
 from server_types.terminal_server import TerminalServer
 
-HOST = "0.0.0.0"
+HOST = "127.0.0.1:6000"
 PORT = 6000
 PASSWORD = "1234"
 
