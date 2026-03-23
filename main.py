@@ -9,7 +9,7 @@ import hashlib
 
 app = Flask(__name__)
 
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS").encode()
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS")
 
 
 servers = {}
