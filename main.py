@@ -128,7 +128,7 @@ SERVER_TYPES = {
 
 
 def start_controller():
-    host = '0.0.0.0'
+    host = ' 127.0.0.1'
     port = 6000
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -312,4 +312,4 @@ def admin():
 threading.Thread(target=start_controller, daemon=True).start()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=6001)
+    app.run(host=" 127.0.0.1", port=6001)
