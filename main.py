@@ -247,7 +247,7 @@ def admin():
     pw = request.args.get("pw")
 
     if pw != ADMIN_PASSWORD:
-        return "Wrong password"
+        return f"Wrong password pw = {pw}"
 
     rows = ""
     for sid, s in servers.items():
