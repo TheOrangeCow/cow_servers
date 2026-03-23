@@ -205,7 +205,7 @@ def delete_server():
  
 
 
-@app.route("/cow_servers/")
+@app.route("/cow_servers/", strict_slashes=False)
 def home():
     html = "<h1>Servers</h1><ul>"
 
@@ -285,7 +285,7 @@ def admin():
     async function create() {{
         let type = document.getElementById("type").value;
 
-        await fetch("/create", {{
+        await fetch("/cow_servers/create", {{
             method: "POST",
             headers: {{"Content-Type": "application/json"}},
             body: JSON.stringify({{type}})
@@ -295,7 +295,7 @@ def admin():
     }}
 
     async function del(id) {{
-        await fetch("/delete", {{
+        await fetch("/cow_servers/delete", {{
             method: "POST",
             headers: {{
                 "Content-Type": "application/json",
