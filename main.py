@@ -8,7 +8,7 @@ import hmac
 
 app = Flask(__name__)
 
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOKETS").encode()
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS").encode()
 
 
 servers = {}
