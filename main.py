@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-ADMIN_PASSWORD = "admin123"
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOKETS").encode()
 
 
 servers = {}
@@ -172,7 +172,7 @@ def handle_client(client):
 
 
 
-@app.route("/create", methods=["POST"])
+@app.route("/cow_servers/create", methods=["POST"])
 def create_server():
     data = request.json or {}
     server_type = data.get("type", "chat")
@@ -191,7 +191,7 @@ def create_server():
         "connect": f"{request.host.split(':')[0]}:6000"
     })
 
-@app.route("/delete", methods=["POST"])
+@app.route("/cow_servers/delete", methods=["POST"])
 def delete_server():
     if request.headers.get("admin") != ADMIN_PASSWORD:
         return "Unauthorized", 403
@@ -205,7 +205,7 @@ def delete_server():
  
 
 
-@app.route("/")
+@app.route("/cow_servers/")
 def home():
     html = "<h1>Servers</h1><ul>"
 
@@ -223,7 +223,7 @@ def home():
 
 SECRET = os.environ.get("WEBHOOK_SECRET_SOCKETS").encode()
 
-@app.route('/update', methods=['POST'])
+@app.route('/cow_servers/update', methods=['POST'])
 def update():
     signature = request.headers.get('X-Hub-Signature-256')
     if not signature:
@@ -240,7 +240,7 @@ def update():
     return "OK", 200
 
 
-@app.route("/admin")
+@app.route("/cow_servers/admin")
 def admin():
     pw = request.args.get("pw")
 
