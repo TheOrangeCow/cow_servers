@@ -311,6 +311,3 @@ def admin():
 
 
 threading.Thread(target=start_controller, daemon=True).start()
-
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=6001)
