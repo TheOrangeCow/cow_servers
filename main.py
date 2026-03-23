@@ -6,7 +6,6 @@ import os
 import subprocess
 import hmac
 import hashlib
-#3
 
 app = Flask(__name__)
 
