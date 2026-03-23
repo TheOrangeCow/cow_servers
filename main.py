@@ -138,7 +138,7 @@ def start_controller():
     server.bind((host, port))
     server.listen()
 
-    print(f"[+] Controller running on {port}")
+    print(f"Controller running on {port}")
 
     while True:
         client, addr = server.accept()
@@ -312,4 +312,6 @@ def admin():
     """
 
 
-threading.Thread(target=start_controller, daemon=True).start()
+if __name__ == "__main__":
+    threading.Thread(target=start_controller, daemon=True).start()
+    app.run(host="127.0.0.1", port=6001)
