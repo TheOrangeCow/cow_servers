@@ -5,6 +5,7 @@ import random
 import os
 import subprocess
 import hmac
+import hashlib
 
 app = Flask(__name__)
 
