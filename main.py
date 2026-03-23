@@ -3,6 +3,8 @@ import socket
 import threading
 import random
 import os
+import subprocess
+import hmac
 
 app = Flask(__name__)
 
