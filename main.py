@@ -1,5 +1,5 @@
 import socket
-import threading
+"""import threading
 
 from server_types.chat_server import ChatServer
 from server_types.terminal_server import TerminalServer
@@ -112,4 +112,10 @@ def start():
         print(f"Connected: {addr}")
         threading.Thread(target=handle_client, args=(conn, addr), daemon=True).start()
 
-start()
+start()"""
+
+host = '0.0.0.0'
+port = 6000
+
+server.bind((host, port))
+
