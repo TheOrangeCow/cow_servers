@@ -19,7 +19,7 @@ servers = {}
 
 
 class ChatServer:
-    def __init__(self, server_id, password):
+    def __init__(self, server_id, password, admin_password):
         self.server_id = server_id
         self.password = password
         self.admin_password = admin_password
@@ -113,7 +113,7 @@ class ChatServer:
 
 
 class EchoServer:
-    def __init__(self, server_id, password):
+    def __init__(self, server_id, password, admin_password=None):
         self.password = password
 
     def join(self, client):
