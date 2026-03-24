@@ -115,6 +115,7 @@ class ChatServer:
 class EchoServer:
     def __init__(self, server_id, password, admin_password=None):
         self.password = password
+        self.adpassword = admin_password
 
     def join(self, client):
         while True:
@@ -141,15 +142,13 @@ def load_servers():
                 return
             data = json.loads(content)
     except json.JSONDecodeError:
-        print(f"[!] Warning: {DATA_FILE} is corrupted or empty. Starting fresh.")
+        print(f"Warning: {DATA_FILE} is corrupted or empty. Starting fresh.")
         return
 
+    servers = {}
     for sid, info in data.items():
-        server_class = SERVER_TYPES.get(info["type"])
-        if not server_class:
-            continue
-        admin_pass = info.get("admin_password", "")
-        instance = server_class(sid, info["password"], admin_pass)
+        server_class = SERVER_TYPES[info["type"]]
+        instance = server_class(sid, info["password"], info.get("admin_password"))
         servers[sid] = instance
 
 
