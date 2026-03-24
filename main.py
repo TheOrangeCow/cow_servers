@@ -6,6 +6,7 @@ import os
 import subprocess
 import hmac
 import hashlib
+import json
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ class ChatServer:
     def __init__(self, server_id, password):
         self.server_id = server_id
         self.password = password
+        self.admin_password = admin_password
         self.clients = []
         self.nicknames = []
         self.banned = set()
@@ -96,7 +98,7 @@ class ChatServer:
 
         if nickname == 'admin':
             client.send(b"PASS")
-            if client.recv(1024).decode() != self.password:
+            if client.recv(1024).decode() != self.admin_password:
                 client.send(b"GOAWAY")
                 client.close()
                 return
@@ -135,31 +137,30 @@ def load_servers():
         data = json.load(f)
 
     servers = {}
-
     for sid, info in data.items():
         server_class = SERVER_TYPES[info["type"]]
-        instance = server_class(sid, info["password"])
+        admin_pass = info.get("admin_password", "")
+        instance = server_class(sid, info["password"], admin_pass)
         servers[sid] = instance
 
 
 def save_servers():
     data = {}
-
     for sid, s in servers.items():
         data[sid] = {
             "type": "chat" if isinstance(s, ChatServer) else "echo",
-            "password": s.password
+            "password": s.password,
+            "admin_password": getattr(s, "admin_password", "")
         }
-
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
-load_servers()
+
 SERVER_TYPES = {
     "chat": ChatServer,
     "echo": EchoServer
 }
-
+load_servers()
 
 def start_controller():
     host = '0.0.0.0'
@@ -216,8 +217,9 @@ def create_server():
 
         server_id = f"server{len(servers)+1}"
         password = str(random.randint(1000, 9999))
+        adpassword = str(random.randint(1000, 9999))
 
-        instance = SERVER_TYPES[server_type](server_id, password)
+        instance = SERVER_TYPES[server_type](server_id, password, adpassword)
         servers[server_id] = instance
 
         save_servers()
