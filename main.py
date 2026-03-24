@@ -129,16 +129,25 @@ class EchoServer:
 
 def load_servers():
     global servers
+    servers = {}
+
     if not os.path.exists(DATA_FILE):
-        servers = {}
         return
 
-    with open(DATA_FILE, "r") as f:
-        data = json.load(f)
+    try:
+        with open(DATA_FILE, "r") as f:
+            content = f.read().strip()
+            if not content:
+                return
+            data = json.loads(content)
+    except json.JSONDecodeError:
+        print(f"[!] Warning: {DATA_FILE} is corrupted or empty. Starting fresh.")
+        return
 
-    servers = {}
     for sid, info in data.items():
-        server_class = SERVER_TYPES[info["type"]]
+        server_class = SERVER_TYPES.get(info["type"])
+        if not server_class:
+            continue
         admin_pass = info.get("admin_password", "")
         instance = server_class(sid, info["password"], admin_pass)
         servers[sid] = instance
