@@ -307,6 +307,7 @@ def admin():
             <td>{type(s).__name__}</td>
             <td>{s.password}</td>
             <td>{len(getattr(s, 'clients', []))}</td>
+            <td>{s.adpassword}</td>
             <td><button onclick="del('{sid}')">Delete</button></td>
         </tr>
         """
@@ -328,6 +329,7 @@ def admin():
             <th>Type</th>
             <th>Password</th>
             <th>Users</th>
+            <th>Ad Password</th>
             <th>Action</th>
         </tr>
         {rows}
