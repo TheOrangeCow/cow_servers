@@ -307,13 +307,13 @@ def admin():
             <td>{type(s).__name__}</td>
             <td>{s.password}</td>
             <td>{len(getattr(s, 'clients', []))}</td>
-            <td>{s.adpassword}</td>
+            <td>{adpass}</td>
             <td><button onclick="del('{sid}')">Delete</button></td>
         </tr>
         """
 
     return f"""
-    <h1>Admin Panel</h1>
+    <h1>Admin Panel</h1> 
 
     <h2>Create Server</h2>
     <select id="type">
