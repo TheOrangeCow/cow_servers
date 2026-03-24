@@ -234,8 +234,9 @@ def create_server():
 
         return jsonify({
             "ok": True,
-            "server_id": server_id,
-            "password": password
+            "server_id": "server1",
+            "password": "7733",
+            "admin_password": "4398"
         })
 
     except Exception as e:
@@ -316,7 +317,7 @@ def admin():
             clients_count = 0
 
         try:
-            adpass = getattr(s, "adpassword", "N/A")
+            adpass = getattr(s, "admin_password", "N/A")
         except:
             adpass = "N/A"
 
