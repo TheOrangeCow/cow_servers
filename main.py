@@ -10,6 +10,7 @@ import hashlib
 app = Flask(__name__)
 
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS")
+DATA_FILE = "servers.json"
 
 
 servers = {}
@@ -124,7 +125,36 @@ class EchoServer:
                 break
         client.close()
 
+def load_servers():
+    global servers
+    if not os.path.exists(DATA_FILE):
+        servers = {}
+        return
 
+    with open(DATA_FILE, "r") as f:
+        data = json.load(f)
+
+    servers = {}
+
+    for sid, info in data.items():
+        server_class = SERVER_TYPES[info["type"]]
+        instance = server_class(sid, info["password"])
+        servers[sid] = instance
+
+
+def save_servers():
+    data = {}
+
+    for sid, s in servers.items():
+        data[sid] = {
+            "type": "chat" if isinstance(s, ChatServer) else "echo",
+            "password": s.password
+        }
+
+    with open(DATA_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
+load_servers()
 SERVER_TYPES = {
     "chat": ChatServer,
     "echo": EchoServer
@@ -177,22 +207,29 @@ def handle_client(client):
 
 @app.route("/cow_servers/create", methods=["POST"])
 def create_server():
-    data = request.json or {}
-    server_type = data.get("type", "chat")
+    try:
+        data = request.json or {}
+        server_type = data.get("type", "chat")
 
-    server_id = f"server{len(servers)+1}"
-    password = str(random.randint(1000, 9999))
+        if server_type not in SERVER_TYPES:
+            return jsonify({"error": "invalid type"}), 400
 
-    server_class = SERVER_TYPES[server_type]
-    instance = server_class(server_id, password)
+        server_id = f"server{len(servers)+1}"
+        password = str(random.randint(1000, 9999))
 
-    servers[server_id] = instance
+        instance = SERVER_TYPES[server_type](server_id, password)
+        servers[server_id] = instance
 
-    return jsonify({
-        "server_id": server_id,
-        "type": server_type,
-        "connect": f"{request.host.split(':')[0]}:6000"
-    })
+        save_servers()
+
+        return jsonify({
+            "ok": True,
+            "server_id": server_id,
+            "password": password
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/cow_servers/delete", methods=["POST"])
 def delete_server():
@@ -203,6 +240,7 @@ def delete_server():
 
     if sid in servers:
         del servers[sid]
+        save_servers()
 
     return "OK"
  
@@ -313,6 +351,5 @@ def admin():
     """
 
 
-if __name__ == "__main__":
+if os.environ.get("RUN_CONTROLLER") == "1":
     threading.Thread(target=start_controller, daemon=True).start()
-    app.run(host="127.0.0.1", port=6001)
