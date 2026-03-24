@@ -301,12 +301,32 @@ def admin():
 
     rows = ""
     for sid, s in servers.items():
+        try:
+            server_type = type(s).__name__
+        except:
+            server_type = "Unknown"
+
+        try:
+            password = getattr(s, "password", "N/A")
+        except:
+            password = "N/A"
+
+        try:
+            clients_count = len(getattr(s, "clients", []))
+        except:
+            clients_count = 0
+
+        try:
+            adpass = getattr(s, "adpassword", "N/A")
+        except:
+            adpass = "N/A"
+
         rows += f"""
         <tr>
             <td>{sid}</td>
-            <td>{type(s).__name__}</td>
-            <td>{s.password}</td>
-            <td>{len(getattr(s, 'clients', []))}</td>
+            <td>{server_type}</td>
+            <td>{password}</td>
+            <td>{clients_count}</td>
             <td>{adpass}</td>
             <td><button onclick="del('{sid}')">Delete</button></td>
         </tr>
