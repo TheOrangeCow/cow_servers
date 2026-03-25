@@ -1,5 +1,5 @@
 const title = document.getElementById("title");
-const containor = document.getElementById("terminal");
+const containor = document.getElementById("containor");
 
 function spawnDust() {
     const rect = title.getBoundingClientRect();
