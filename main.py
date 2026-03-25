@@ -1,12 +1,5 @@
 from flask import Flask, jsonify, request, render_template
-import socket
-import threading
-import random
-import os
-import subprocess
-import hmac
-import hashlib
-import json
+import socket, threading, random, os, subprocess, hmac, hashlib, json
 
 app = Flask(__name__)
 
@@ -234,9 +227,9 @@ def create_server():
 
         return jsonify({
             "ok": True,
-            "server_id": "server1",
-            "password": "7733",
-            "admin_password": "4398"
+            "server_id": server_id,
+            "password": password,
+            "admin_password": adpassword
         })
 
     except Exception as e:
@@ -337,7 +330,7 @@ def admin():
 
     return render_template(
         "admin.html",
-        row=rows
+        rows=rows
     )
 
 
