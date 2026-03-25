@@ -1,0 +1,37 @@
+<!--
+
+     .-.;;;;;;'                                                   .-._   .-._.          
+    (_)  .; .;           .;;.    .-                             .: (_)`-'               
+         :  ;;-.  .-.   ;;  `;`-'.;.::..-.    . ,';.  ,:.,' .-. ::      .-.  `;     .-  
+       .:' ;;  ;.;.-'  ;;    :.  .;   ;   :   ;;  ;; :   ;.;.-' ::   _ ;   ;';  ;   ;   
+     .-:._.;`  ` `:::';;     ;'.;'    `:::'-'';  ;;   `-:' `:::'`: .; )`;;'  `.' `.'    
+    (_/  `-           `;.__.'                ;    `.-._:'         `--'                  
+
+    -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+    <title>TheOrangeCow - Cow-Servers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <br><br>
+    <div id="title">Cow - Servers</div>
+
+    <div id="containor">
+        <h2>Servers</h2>
+        <ul>
+            {{server_list}}
+       </ul>
+    </div>
+
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</html>

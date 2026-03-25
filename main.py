@@ -259,8 +259,7 @@ def delete_server():
 
 @app.route("/cow_servers/", strict_slashes=False)
 def home():
-    html = "<h1>Servers</h1><ul>"
-
+    server_list = ""
     for sid, s in servers.items():
         html += f"""
         <li>
@@ -270,8 +269,12 @@ def home():
         </li>
         """
 
-    html += "</ul>"
-    return html
+    
+
+    return render_template(
+        "index.html",
+        server_list=server_list
+    )
 
 SECRET = os.environ.get("WEBHOOK_SECRET_SOCKETS").encode()
 
@@ -332,56 +335,11 @@ def admin():
         </tr>
         """
 
-    return f"""
-    <h1>Admin Panel</h1> 
+    return render_template(
+        "admin.html",
+        row=row
+    )
 
-    <h2>Create Server</h2>
-    <select id="type">
-        <option value="chat">Chat</option>
-        <option value="echo">Echo</option>
-    </select>
-    <button onclick="create()">Create</button>
-
-    <h2>Servers</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Type</th>
-            <th>Password</th>
-            <th>Users</th>
-            <th>Ad Password</th>
-            <th>Action</th>
-        </tr>
-        {rows}
-    </table>
-
-    <script>
-    async function create() {{
-        let type = document.getElementById("type").value;
-
-        await fetch("/cow_servers/create", {{
-            method: "POST",
-            headers: {{"Content-Type": "application/json"}},
-            body: JSON.stringify({{type}})
-        }});
-
-        location.reload();
-    }}
-
-    async function del(id) {{
-        await fetch("/cow_servers/delete", {{
-            method: "POST",
-            headers: {{
-                "Content-Type": "application/json",
-                "admin": "{ADMIN_PASSWORD}"
-            }},
-            body: JSON.stringify({{id}})
-        }});
-
-        location.reload();
-    }}
-    </script>
-    """
 
 
 if os.environ.get("RUN_CONTROLLER") == "1":

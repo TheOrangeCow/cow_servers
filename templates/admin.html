@@ -1,0 +1,78 @@
+<!--
+
+     .-.;;;;;;'                                                   .-._   .-._.          
+    (_)  .; .;           .;;.    .-                             .: (_)`-'               
+         :  ;;-.  .-.   ;;  `;`-'.;.::..-.    . ,';.  ,:.,' .-. ::      .-.  `;     .-  
+       .:' ;;  ;.;.-'  ;;    :.  .;   ;   :   ;;  ;; :   ;.;.-' ::   _ ;   ;';  ;   ;   
+     .-:._.;`  ` `:::';;     ;'.;'    `:::'-'';  ;;   `-:' `:::'`: .; )`;;'  `.' `.'    
+    (_/  `-           `;.__.'                ;    `.-._:'         `--'                  
+
+    -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+    <title>TheOrangeCow - Cow-Servers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <br><br>
+    <div id="title">Cow - Servers</div>
+
+    <div id="containor">
+        <h2>Admin</h2>
+        <h2>Create Server</h2>
+        <select id="type">
+            <option value="chat">Chat</option>
+            <option value="echo">Echo</option>
+        </select>
+        <button onclick="create()">Create</button>
+        <h2>Servers</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Password</th>
+                <th>Users</th>
+                <th>Ad Password</th>
+                <th>Action</th>
+            </tr>
+            {rows}
+        </table>
+    </div>
+
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    async function create() {
+        let type = document.getElementById("type").value;
+
+        await fetch("/cow_servers/create", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(type)
+        });
+
+        location.reload();
+    }
+
+    async function del(id) {
+        await fetch("/cow_servers/delete", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "admin": "{{ADMIN_PASSWORD}}"
+            },
+            body: JSON.stringify(id)
+        });
+
+        location.reload();
+    }
+</script>
+
+</html>

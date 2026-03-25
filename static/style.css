@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+#title {
+    font-family: 'Press Start 2P', monospace;
+
+    font-size: calc(20px + 5vw);
+
+    color: orange;
+    text-align: center;
+    position: relative;
+    top: -5em;
+    animation: drop 0.6s linear forwards;
+
+    text-shadow:
+        0.08em 0.08em #b35c00,
+        0.16em 0.16em #803f00;
+
+    max-width: 90%;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+
+@media (min-width: 1056px) { 
+    #title {
+        font-size: 95px;
+    }
+}
+
+@keyframes drop {
+    to { top: 0; }
+}
+
+.dust {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #999;
+    z-index: 5;
+    animation: dust-fall 2.5s ease-out forwards;
+}
+
+@keyframes dust-fall {
+    from { transform: translate(0, 0); opacity: 1; }
+    to { transform: translate(var(--x), var(--y)); opacity: 0; }
+}
+
+#containor{
+    width: 80%;
+    margin: 120px auto;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #00ff00;
+    min-height: 220px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    position: relative;
+}
+
+#containor.show {
+    opacity: 1;
+}
+
+
+
+
