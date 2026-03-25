@@ -265,7 +265,7 @@ def home():
     
 
     return render_template(
-        "/cow_servers/index.html",
+        "index.html",
         server_list=server_list
     )
 
@@ -329,7 +329,7 @@ def admin():
         """
 
     return render_template(
-        "/cow_servers/admin.html",
+        "/admin.html",
         rows=rows
     )
 
