@@ -1,7 +1,11 @@
 from flask import Flask, jsonify, request, render_template
 import socket, threading, random, os, subprocess, hmac, hashlib, json
 
-app = Flask(__name__)
+app = Flask(
+        __name__,
+        static_url_path="/cow_servers/static",
+        static_folder="static"
+    )
 
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS")
 DATA_FILE = "servers.json"
