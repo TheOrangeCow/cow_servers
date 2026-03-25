@@ -261,7 +261,7 @@ def delete_server():
 def home():
     server_list = ""
     for sid, s in servers.items():
-        html += f"""
+        server_list += f"""
         <li>
         ID: {sid}<br>
         Type: {type(s).__name__}<br>
