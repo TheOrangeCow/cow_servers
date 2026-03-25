@@ -11,12 +11,40 @@
 <body>
 
     <h1 style='color:red; font-family: "Press Start 2P", monospace; text-align:center;'>LOGIN</h1>
+    <p id="disply"></p>
+    <p id="eror"></p>
 
-    <form method="POST">
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Enter</button>
-    </form>
-    <p>This is cow-servers to find out more go to <a href="https://github.com/TheOrangeCow/cow-servers"</p>
+    <input id = "password" style="display: none;" type="password" name="password" placeholder="Password">
+    <p style="text-align:center;">This is cow-servers to find out more go to <a href="https://github.com/TheOrangeCow/cow-servers">here</a></p>
 
 </body>
+<script>
+    const input = document.getElementById("password");
+    const disply = document.getElementById("disply");
+    const eror = document.getElementById("eror");
+    input.focus();
+    document.body.addEventListener("click", () => input.focus());
+    input.addEventListener("keydown", async e => {
+        if (e.key === "Enter") {
+            try {
+                const password = input.value;
+                const res = await fetch("/cow-servers/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ password })
+                });
+                const text = await res.text();
+
+                if (text.includes("Wrong")) {
+                    eror.textContent = "Wrong password";
+                } else {
+                    window.location.href = "/cow-servers/";
+                }
+
+            } catch (err) {
+                eror.textContent = "Error executing login";
+            }
+        }
+    });
+</script>
 </html>
