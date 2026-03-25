@@ -337,7 +337,7 @@ def admin():
 
     return render_template(
         "admin.html",
-        row=row
+        row=rows
     )
 
 
