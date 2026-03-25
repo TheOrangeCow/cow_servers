@@ -24,6 +24,7 @@
     const eror = document.getElementById("eror");
     input.focus();
     document.body.addEventListener("click", () => input.focus());
+    input.addEventListener("input", () => { disply.textContent = input.value; });
     input.addEventListener("keydown", async e => {
         if (e.key === "Enter") {
             try {
