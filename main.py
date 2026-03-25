@@ -3,7 +3,7 @@ import socket, threading, random, os, subprocess, hmac, hashlib, json
 
 app = Flask(
         __name__,
-        static_url_path="/cow_servers/static",
+        static_url_path="/cow-servers/static",
         static_folder="static"
     )
 
@@ -212,7 +212,7 @@ def handle_client(client):
 
 
 
-@app.route("/cow_servers/create", methods=["POST"])
+@app.route("/cow-servers/create", methods=["POST"])
 def create_server():
     try:
         data = request.json or {}
@@ -240,7 +240,7 @@ def create_server():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/cow_servers/delete", methods=["POST"])
+@app.route("/cow-servers/delete", methods=["POST"])
 def delete_server():
     if request.headers.get("admin") != ADMIN_PASSWORD:
         return "Unauthorized", 403
@@ -253,24 +253,24 @@ def delete_server():
 
     return "OK"
  
-@app.route("/cow_servers/login", methods=["GET", "POST"])
+@app.route("/cow-servers/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         password = request.form.get("password")
 
         if password == os.environ.get("LOGIN_PASSOWRD"):
             session["auth"] = True
-            return redirect("/cow_servers/")
+            return redirect("/cow-servers/")
         else:
             return "Wrong password"
 
     return render_template("login.html")
 
 
-@app.route("/cow_servers/", strict_slashes=False)
+@app.route("/cow-servers/", strict_slashes=False)
 def home():
     if not session.get("auth"):
-        return redirect("/cow_servers/login")
+        return redirect("/cow-servers/login")
     server_list = ""
     for sid, s in servers.items():
         server_list += f"""
@@ -290,7 +290,7 @@ def home():
 
 SECRET = (os.environ.get("WEBHOOK_SECRET_SOCKETS") or "").encode()
 
-@app.route('/cow_servers/update', methods=['POST'])
+@app.route('/cow-servers/update', methods=['POST'])
 def update():
     signature = request.headers.get('X-Hub-Signature-256')
     if not signature:
@@ -307,10 +307,10 @@ def update():
     return "OK", 200
 
 
-@app.route("/cow_servers/admin")
+@app.route("/cow-servers/admin")
 def admin():
     if not session.get("auth"):
-        return redirect("/cow_servers/login")
+        return redirect("/cow-servers/login")
     pw = request.args.get("pw")
 
     if pw != ADMIN_PASSWORD:
