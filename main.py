@@ -8,6 +8,7 @@ app = Flask(
     )
 
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS")
+app.secret_key = os.environ.get("LOGIN_PROTECT")
 DATA_FILE = "servers.json"
 
 
@@ -252,10 +253,24 @@ def delete_server():
 
     return "OK"
  
+@app.route("/cow_servers/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        password = request.form.get("password")
+
+        if password == os.environ.get("LOGIN_PASSOWRD"):
+            session["auth"] = True
+            return redirect("/cow_servers/")
+        else:
+            return "Wrong password"
+
+    return render_template("login.html")
 
 
 @app.route("/cow_servers/", strict_slashes=False)
 def home():
+    if not session.get("auth"):
+        return redirect("/cow_servers/login")
     server_list = ""
     for sid, s in servers.items():
         server_list += f"""
@@ -273,7 +288,7 @@ def home():
         server_list=server_list
     )
 
-SECRET = os.environ.get("WEBHOOK_SECRET_SOCKETS").encode()
+SECRET = (os.environ.get("WEBHOOK_SECRET_SOCKETS") or "").encode()
 
 @app.route('/cow_servers/update', methods=['POST'])
 def update():
@@ -294,6 +309,8 @@ def update():
 
 @app.route("/cow_servers/admin")
 def admin():
+    if not session.get("auth"):
+        return redirect("/cow_servers/login")
     pw = request.args.get("pw")
 
     if pw != ADMIN_PASSWORD:
@@ -333,7 +350,7 @@ def admin():
         """
 
     return render_template(
-        "/admin.html",
+        "admin.html",
         rows=rows
     )
 
