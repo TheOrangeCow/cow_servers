@@ -1,5 +1,5 @@
 # Cow Servers
-This is a project were you can run multiple python sokets servvers using one port it also starts a flask app to controll them.
+This is a project where you can run multiple python sockets servers using one port it also starts a flask app to controll them.
 
 ### Pictures 
 
