@@ -1,1 +1,7 @@
-# cow_servers
+# Cow Servers
+This is a project were you can run multiple python sokets servvers using one port it also starts a flask app to controll them.
+
+### Pictures 
+
+<img width="1893" height="1021" alt="image" src="https://github.com/user-attachments/assets/88e40b9f-0059-4b53-821b-8f3bc66529ab" />
+<img width="1900" height="1012" alt="image" src="https://github.com/user-attachments/assets/62b628e3-d5fd-485b-afb2-64f78829f142" />
