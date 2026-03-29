@@ -271,7 +271,7 @@ def login():
 @app.route("/", strict_slashes=False)
 def home():
     if not session.get("auth"):
-        return redirect("/cow-servers/login")
+        return redirect("/login")
     server_list = ""
     for sid, s in servers.items():
         server_list += f"""
@@ -311,7 +311,7 @@ def update():
 @app.route("/admin")
 def admin():
     if not session.get("auth"):
-        return redirect("/cow-servers/login")
+        return redirect("/login")
     pw = request.args.get("pw")
 
     if pw != ADMIN_PASSWORD:
