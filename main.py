@@ -3,7 +3,7 @@ import socket, threading, random, os, subprocess, hmac, hashlib, json
 
 app = Flask(
         __name__,
-        static_url_path="/cow-servers/static",
+        static_url_path="/static",
         static_folder="static"
     )
 
@@ -212,7 +212,7 @@ def handle_client(client):
 
 
 
-@app.route("/cow-servers/create", methods=["POST"])
+@app.route("/create", methods=["POST"])
 def create_server():
     try:
         data = request.json or {}
@@ -240,7 +240,7 @@ def create_server():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/cow-servers/delete", methods=["POST"])
+@app.route("/delete", methods=["POST"])
 def delete_server():
     if request.headers.get("admin") != ADMIN_PASSWORD:
         return "Unauthorized", 403
@@ -253,7 +253,7 @@ def delete_server():
 
     return "OK"
  
-@app.route("/cow-servers/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         data = request.get_json() or {}
@@ -268,7 +268,7 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/cow-servers/", strict_slashes=False)
+@app.route("/", strict_slashes=False)
 def home():
     if not session.get("auth"):
         return redirect("/cow-servers/login")
@@ -308,7 +308,7 @@ def update():
     return "OK", 200
 
 
-@app.route("/cow-servers/admin")
+@app.route("/admin")
 def admin():
     if not session.get("auth"):
         return redirect("/cow-servers/login")
