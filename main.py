@@ -256,12 +256,11 @@ def delete_server():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        data = request.get_json() or {}
-        password = data.get("password", "")
+        password = request.form.get("password", "")
 
-        if password == "cheese": #os.environ.get("LOGIN_PASSWORD"):
+        if password == os.environ.get("LOGIN_PASSWORD"):
             session["auth"] = True
-            return "OK"
+            return redirect("/")
         else:
             return "Wrong password", 401
 
