@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, render_template, redirect, session
 import socket, threading, random, os, subprocess, hmac, hashlib, json
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(
         __name__,
         static_url_path="/static",
@@ -259,7 +261,7 @@ def login():
         data = request.get_json() or {}
         password = data.get("password", "")
 
-        if password == "cheese": #os.environ.get("LOGIN_PASSWORD"):
+        if password == os.environ.get("LOGIN_PASSWORD"):
             session["auth"] = True
             return "OK"
         else:
@@ -308,7 +310,7 @@ def update():
     return "OK", 200
 
 
-@app.route("/admin")
+@app.route("/admin/admin")
 def admin():
     if not session.get("auth"):
         return redirect("/login")
