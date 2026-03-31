@@ -321,7 +321,7 @@ def update():
     return "OK", 200
 
 
-@app.route("/admin/admin")
+@app.route("/admin")
 def admin():
     if not session.get("auth"):
         return redirect("/login")
