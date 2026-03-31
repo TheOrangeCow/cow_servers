@@ -3,7 +3,7 @@ import socket, threading, random, os, subprocess, hmac, hashlib, json
 
 ENV = {}
 
-with open(path) as f:
+with open(".env") as f:
     for line in f:
         line = line.strip()
 
