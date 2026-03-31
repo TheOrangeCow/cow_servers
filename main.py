@@ -259,7 +259,7 @@ def login():
         data = request.get_json() or {}
         password = data.get("password", "")
 
-        if password == os.environ.get("LOGIN_PASSWORD", "cheese"):
+        if password == os.environ.get("LOGIN_PASSWORD"):
             session["auth"] = True
             return "OK"
         else:
