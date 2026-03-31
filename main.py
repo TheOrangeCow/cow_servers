@@ -1,8 +1,13 @@
 from flask import Flask, jsonify, request, render_template, redirect, session
 import socket, threading, random, os, subprocess, hmac, hashlib, json
-from dotenv import load_dotenv
 
-print(load_dotenv("/var/www/sockets/.env"))
+with open("/var/www/sockets/.env") as f:
+    for line in f:
+        if "=" in line:
+            key, value = line.strip().split("=", 1)
+            os.environ[key] = value
+
+
 print(os.environ.get("LOGIN_PASSWORD"))
 app = Flask(
         __name__,
