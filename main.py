@@ -14,8 +14,6 @@ with open(".env") as f:
             key, value = line.split("=", 1)
             ENV[key.strip()] = value.strip()
 
-
-print(ENV.get("LOGIN_PASSWORD"))
 app = Flask(
         __name__,
         static_url_path="/static",
