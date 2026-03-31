@@ -3,6 +3,7 @@ import socket, threading, random, os, subprocess, hmac, hashlib, json
 from dotenv import load_dotenv
 
 load_dotenv()
+print(os.environ.get("LOGIN_PASSWORD"))
 app = Flask(
         __name__,
         static_url_path="/static",
