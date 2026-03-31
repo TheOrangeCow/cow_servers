@@ -1,27 +1,29 @@
 from flask import Flask, jsonify, request, render_template, redirect, session
 import socket, threading, random, os, subprocess, hmac, hashlib, json
 
-with open("/var/www/sockets/.env") as f:
-        for line in f:
-            line = line.strip()
+ENV = {}
 
-            if not line or line.startswith("#"):
-                continue
+with open(path) as f:
+    for line in f:
+        line = line.strip()
 
-            if "=" in line:
-                key, value = line.split("=", 1)
-                ENV[key.strip()] = value.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        if "=" in line:
+            key, value = line.split("=", 1)
+            ENV[key.strip()] = value.strip()
 
 
-print(os.environ.get("LOGIN_PASSWORD"))
+print(ENV.get("LOGIN_PASSWORD"))
 app = Flask(
         __name__,
         static_url_path="/static",
         static_folder="static"
     )
 
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD_SOCKETS")
-app.secret_key = os.environ.get("LOGIN_PROTECT")
+ADMIN_PASSWORD = ENV.get("ADMIN_PASSWORD_SOCKETS")
+app.secret_key = ENV.get("LOGIN_PROTECT")
 DATA_FILE = "servers.json"
 
 
@@ -272,7 +274,7 @@ def login():
         data = request.get_json() or {}
         password = data.get("password", "")
 
-        if password == os.environ.get("LOGIN_PASSWORD"):
+        if password == ENV.get("LOGIN_PASSWORD"):
             session["auth"] = True
             return "OK"
         else:
@@ -302,7 +304,7 @@ def home():
         server_list=server_list
     )
 
-SECRET = (os.environ.get("WEBHOOK_SECRET_SOCKETS") or "").encode()
+SECRET = (ENV.get("WEBHOOK_SECRET_SOCKETS") or "").encode()
 
 @app.route('/cow-servers/update', methods=['POST'])
 def update():
@@ -370,5 +372,5 @@ def admin():
 
 
 
-if os.environ.get("RUN_CONTROLLER") == "1":
+if ENV.get("RUN_CONTROLLER") == "1":
     threading.Thread(target=start_controller, daemon=True).start()
