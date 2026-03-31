@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template, redirect, session
 import socket, threading, random, os, subprocess, hmac, hashlib, json
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv("/var/www/sockets/.env")
 print(os.environ.get("LOGIN_PASSWORD"))
 app = Flask(
         __name__,
