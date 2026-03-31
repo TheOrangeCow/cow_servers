@@ -2,10 +2,15 @@ from flask import Flask, jsonify, request, render_template, redirect, session
 import socket, threading, random, os, subprocess, hmac, hashlib, json
 
 with open("/var/www/sockets/.env") as f:
-    for line in f:
-        if "=" in line:
-            key, value = line.strip().split("=", 1)
-            os.environ[key] = value
+        for line in f:
+            line = line.strip()
+
+            if not line or line.startswith("#"):
+                continue
+
+            if "=" in line:
+                key, value = line.split("=", 1)
+                ENV[key.strip()] = value.strip()
 
 
 print(os.environ.get("LOGIN_PASSWORD"))
